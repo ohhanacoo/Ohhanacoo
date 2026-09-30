@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>OH! HANA — Wedding Tag</title>
+<style>
+:root{--rose:#b95773;--rose2:#d8879e;--cream:#fffaf7;--ink:#352b2f;--muted:#88777d;--line:#eadfe2;--olive:#7d8561}
+*{box-sizing:border-box} body{margin:0;background:#f8f2ef;color:var(--ink);font-family:Arial,sans-serif}
+button{font:inherit;cursor:pointer} .app{max-width:520px;margin:auto;min-height:100vh;background:var(--cream)}
+header{position:sticky;top:0;z-index:5;background:#fffaf7;border-bottom:1px solid var(--line);padding:14px 16px}
+.brand{font-weight:800;letter-spacing:.5px}.sub{font-size:12px;color:var(--muted);margin-top:3px}
+main{padding:14px 16px 90px}.search{width:100%;padding:13px 15px;border:1px solid var(--line);border-radius:16px;background:white;outline:none;margin-bottom:14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.card{background:#fff;border:1px solid #eee4e7;border-radius:20px;padding:10px;box-shadow:0 5px 18px #6c42500d}
+.card img{width:100%;aspect-ratio:1/1.25;object-fit:cover;border-radius:14px;background:#f5f0ed}.card h3{font-size:17px;margin:9px 3px 4px}.meta{font-size:12px;color:var(--muted);margin:0 3px 9px}
+.primary,.secondary{border:0;border-radius:14px;padding:12px;width:100%;font-weight:700}.primary{background:var(--rose);color:white}.secondary{background:#f2e7e9;color:var(--rose)}
+.screen{display:none}.screen.active{display:block}.back{border:0;background:none;color:var(--rose);font-weight:700;padding:0;margin-bottom:14px}
+.hero{background:white;border-radius:22px;padding:12px;border:1px solid var(--line)}.hero img{width:100%;border-radius:16px;max-height:390px;object-fit:contain;background:#f8f5f2}
+h2{margin:12px 0 4px}.muted{color:var(--muted);font-size:13px}.section{margin-top:18px}.section-title{font-weight:800;margin-bottom:9px}
+.options{display:flex;gap:8px}.opt{flex:1;border:1px solid var(--line);background:white;border-radius:13px;padding:11px}.opt.selected{border:2px solid var(--rose);color:var(--rose);font-weight:800}
+.qtyrow{display:flex;align-items:center;justify-content:space-between;background:white;border:1px solid var(--line);border-radius:15px;padding:10px 12px;margin:8px 0}.qtyname{font-weight:700}.qtyprice{font-size:12px;color:var(--muted)}.step{display:flex;align-items:center;gap:9px}.step button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:#fff}.num{min-width:70px;text-align:center;font-weight:800}
+.totalbox{background:#fff;border:1px solid var(--line);border-radius:16px;padding:14px;margin-top:14px}.line{display:flex;justify-content:space-between;margin:7px 0}.grand{font-size:20px;font-weight:800;border-top:1px solid var(--line);padding-top:10px;margin-top:10px}
+.cartitem{background:#fff;border:1px solid var(--line);border-radius:16px;padding:12px;margin:9px 0}.carttop{display:flex;gap:10px}.thumb{width:70px;height:85px;object-fit:cover;border-radius:10px}.cartitem .grow{flex:1}.remove{border:0;background:none;color:#b44c68;font-size:12px}
+input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:13px;background:white;margin:6px 0 10px;outline:none}
+.notice{background:#f4f0e5;border-radius:14px;padding:12px;font-size:13px;margin:12px 0}
+.qr{width:220px;height:220px;margin:15px auto;display:block;border-radius:10px}
+.bottom{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:auto;background:#fff;padding:10px 16px;border-top:1px solid var(--line)}
+.empty{text-align:center;padding:50px 15px;color:var(--muted)}
+.smallbtn{border:0;background:#f3e7ea;color:var(--rose);padding:8px 11px;border-radius:10px;font-weight:700}
+.adminitem{background:#fff;border:1px solid var(--line);border-radius:16px;padding:10px;margin:8px 0;display:flex;gap:10px;align-items:center}.adminitem img{width:60px;height:75px;object-fit:cover;border-radius:9px}.adminitem .grow{flex:1}.danger{border:0;background:#f8e6ea;color:#ad4561;padding:8px 10px;border-radius:10px;font-weight:700}
+@media(max-width:390px){.grid{gap:9px}.card{padding:8px}.card h3{font-size:15px}}
+
+.collection-card{width:100%;display:flex;align-items:center;gap:13px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:22px;padding:18px;box-shadow:0 7px 22px #6c42500d}.collection-card .collection-icon{width:54px;height:54px;border-radius:16px;background:#f5e8eb;display:grid;place-items:center;font-size:26px}.collection-card div:nth-child(2){flex:1}.collection-card strong{display:block;font-size:18px;letter-spacing:.4px}.collection-card small{display:block;color:var(--muted);margin-top:4px}.collection-card span{font-size:24px;color:var(--rose)}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand">OH! HANA</div>
+  <div class="sub">Wedding Tag • Simple & Elegant</div>
+</header>
+
+<main>
+
+<section id="home" class="screen active">
+  <div style="text-align:center;padding:28px 8px 18px">
+    <div style="font-size:13px;letter-spacing:2px;color:var(--muted)">OH! HANA</div>
+    <h1 style="font-size:30px;margin:8px 0">Choose Your Collection</h1>
+    <div class="muted">Simple • Elegant • Made with Love</div>
+  </div>
+  <div style="display:grid;gap:16px;margin-top:10px">
+    <button class="collection-card" data-collection="wedding">
+      <div class="collection-icon">💍</div>
+      <div><strong>WEDDING TAG</strong><small>Custom wedding tags & designs</small></div>
+      <span>→</span>
+    </button>
+    <button class="collection-card" data-collection="worksheet">
+      <div class="collection-icon">📚</div>
+      <div><strong>KIDS WORKSHEET</strong><small>Digital & printed preschool activities</small></div>
+      <span>→</span>
+    </button>
+  </div>
+</section>
+
+<section id="worksheet" class="screen">
+  <button class="back" data-action="home">← Kembali ke Home</button>
+  <h2>Kids Worksheet</h2>
+  <div class="muted" style="margin-bottom:14px">Digital • Print • Preschool Activities</div>
+  <div id="worksheetGrid" class="grid"></div>
+</section>
+
+<section id="worksheetDetail" class="screen">
+  <button class="back" data-action="worksheet">← Kembali ke Kids Worksheet</button>
+  <div class="hero"><img id="wsImg" alt="Kids worksheet"></div>
+  <h2 id="wsTitle"></h2><div id="wsCode" class="muted"></div>
+  <div class="section">
+    <div class="section-title">Pilihan</div>
+    <div class="options">
+      <button class="opt selected" data-ws-type="digital">📱 Digital PDF</button>
+      <button class="opt" data-ws-type="print">🖨️ Nak kami print</button>
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Quantity</div>
+    <div class="qtyrow">
+      <div><div class="qtyname">1 set</div><div id="wsPrice" class="qtyprice"></div></div>
+      <div class="step"><button data-wsqty="-1">−</button><div id="wsQty" class="num">1</div><button data-wsqty="1">+</button></div>
+    </div>
+  </div>
+  <div id="printOptions" style="display:none">
+    <div class="section">
+      <div class="section-title">Printing</div>
+      <div class="options">
+        <button class="opt selected" data-print="bw">Black & White</button>
+        <button class="opt" data-print="colour">Colour</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Saiz</div>
+      <div class="options">
+        <button class="opt selected" data-size="A4">A4</button>
+        <button class="opt" data-size="A5">A5</button>
+      </div>
+    </div>
+  </div>
+  <div id="wsTotal" class="totalbox"></div>
+  <button class="primary" id="addWorksheet">Tambah ke Cart</button>
+</section>
+
+<div style="display:flex;justify-content:flex-end;margin-bottom:10px">
+  <button class="smallbtn" data-action="admin">⚙️ Admin</button>
+</div>
+
+<section id="admin" class="screen">
+  <button class="back" data-action="catalog">← Kembali ke catalogue</button>
+  <h2>Admin • Products</h2>
+  <div class="notice">Tambah atau edit design wedding tag. Data yang disimpan dalam versi ini berada pada browser/peranti ini.</div>
+
+  <div class="section">
+    <div class="section-title">Tambah Product</div>
+    <input id="adminCode" placeholder="Kod contoh: WT004">
+    <input id="adminTitle" placeholder="Nama design">
+    <label class="muted">Gambar product</label>
+    <input id="adminImage" type="file" accept="image/*">
+    <div class="section-title">Harga Matte Ivory</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
+      <input id="m10" type="number" step="0.01" value="2" placeholder="10 pcs">
+      <input id="m50" type="number" step="0.01" value="8" placeholder="50 pcs">
+      <input id="m100" type="number" step="0.01" value="15" placeholder="100 pcs">
+    </div>
+    <div class="section-title">Harga Glossy</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
+      <input id="g10" type="number" step="0.01" value="3" placeholder="10 pcs">
+      <input id="g50" type="number" step="0.01" value="9" placeholder="50 pcs">
+      <input id="g100" type="number" step="0.01" value="16" placeholder="100 pcs">
+    </div>
+    <button class="primary" id="saveProduct">Simpan Product</button>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Product sedia ada</div>
+    <div id="adminProducts"></div>
+  </div>
+</section>
+
+<section id="catalog" class="screen">
+  <input id="search" class="search" placeholder="🔎 Cari kod / design..." autocomplete="off">
+  <div id="catalogGrid" class="grid"></div>
+</section>
+
+<section id="detail" class="screen">
+  <button class="back" data-action="catalog">← Kembali ke catalogue</button>
+  <div class="hero"><img id="detailImg" alt="Wedding tag"></div>
+  <h2 id="detailTitle"></h2><div id="detailCode" class="muted"></div>
+
+  <div class="section">
+    <div class="section-title">Material</div>
+    <div class="options">
+      <button class="opt selected" data-material="matte">Matte Ivory</button>
+      <button class="opt" data-material="glossy">Glossy</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Pilih quantity</div>
+    <div class="qtyrow"><div><div class="qtyname">10 pcs set</div><div id="p10" class="qtyprice"></div></div><div class="step"><button data-qty="10" data-dir="-1">−</button><div id="q10" class="num">0 pcs</div><button data-qty="10" data-dir="1">+</button></div></div>
+    <div class="qtyrow"><div><div class="qtyname">50 pcs set</div><div id="p50" class="qtyprice"></div></div><div class="step"><button data-qty="50" data-dir="-1">−</button><div id="q50" class="num">0 pcs</div><button data-qty="50" data-dir="1">+</button></div></div>
+    <div class="qtyrow"><div><div class="qtyname">100 pcs set</div><div id="p100" class="qtyprice"></div></div><div class="step"><button data-qty="100" data-dir="-1">−</button><div id="q100" class="num">0 pcs</div><button data-qty="100" data-dir="1">+</button></div></div>
+  </div>
+  <div class="section">
+    <div class="section-title">Postage</div>
+    <div class="options">
+      <button class="opt selected" data-detail-shipping="6">Semenanjung<br><small>RM6.00</small></button>
+      <button class="opt" data-detail-shipping="13">Sabah / Sarawak<br><small>RM13.00</small></button>
+    </div>
+    <div id="detailShippingNote" class="notice">Pilih kawasan penghantaran. 1000 pcs atau lebih = FREE POSTAGE.</div>
+  </div>
+  <div id="detailTotal" class="totalbox"></div>
+  <button class="primary" id="addCart">Tambah ke Cart</button>
+</section>
+
+<section id="cart" class="screen">
+  <button class="back" data-action="catalog">← Teruskan shopping</button>
+  <h2>Cart</h2>
+  <div id="cartList"></div>
+  <div id="cartSummary"></div>
+  <button class="primary" id="checkoutBtn">Checkout</button>
+</section>
+
+<section id="customer" class="screen">
+  <button class="back" data-action="cart">← Kembali ke Cart</button>
+  <h2>Maklumat Customer</h2>
+  <input id="name" placeholder="Nama">
+  <input id="phone" placeholder="No. WhatsApp">
+  <input id="address" placeholder="Alamat penghantaran">
+  <select id="state"><option value="">Pilih negeri</option><option>Semenanjung</option><option>Sabah / Sarawak</option></select>
+  <button class="primary" id="shippingBtn">Teruskan</button>
+</section>
+
+<section id="shipping" class="screen">
+  <button class="back" data-action="customer">← Kembali</button>
+  <h2>Shipping</h2>
+  <div id="shippingInfo" class="notice"></div>
+  <button class="primary" id="summaryBtn">Lihat Order Summary</button>
+</section>
+
+<section id="summary" class="screen">
+  <button class="back" data-action="shipping">← Kembali</button>
+  <h2>Order Summary</h2>
+  <div id="summaryBox" class="totalbox"></div>
+  <button class="primary" id="paymentBtn">Teruskan Payment</button>
+</section>
+
+<section id="payment" class="screen">
+  <button class="back" data-action="summary">← Kembali</button>
+  <h2>Payment</h2>
+  <div id="orderIdBox" class="notice"></div>
+  <p class="muted">Scan QR di bawah untuk membuat pembayaran.</p>
+  <img class="qr" src="https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=OH-HANA-DEMO-PAYMENT" alt="Demo QR">
+  <div id="payTotal" class="totalbox"></div>
+  <button class="primary" id="waBtn">Done Payment → WhatsApp</button>
+</section>
+</main>
+
+<div class="bottom"><button class="secondary" id="cartNav">🛒 Cart <span id="cartCount">0</span></button></div>
+</div>
+
+<script>
+(function(){
+'use strict';
+
+const defaultProducts = [
+ {code:'WT001', title:'Golden Floral', img:'wt001.png', p:{matte:{10:2,50:8,100:15},glossy:{10:3,50:9,100:16}}},
+ {code:'WT002', title:'Red Rose', img:'wt002.png', p:{matte:{10:2,50:8,100:15},glossy:{10:3,50:9,100:16}}},
+ {code:'WT003', title:'Blue Floral', img:'wt003.png', p:{matte:{10:2,50:8,100:15},glossy:{10:3,50:9,100:16}}}
+];
+let products = JSON.parse(localStorage.getItem('ohhana_products') || 'null') || defaultProducts;
+const defaultWorksheets = [
+ {code:'DW001',title:'Tracing Numbers 1–10',age:'Age 3–5',img:'wt001.png',digital:5,print:{bw:8,colour:12}},
+ {code:'DW002',title:'Matching Colours',age:'Age 2–4',img:'wt002.png',digital:5,print:{bw:8,colour:12}},
+ {code:'DW003',title:'Cutting Activity',age:'Age 3–5',img:'wt003.png',digital:6,print:{bw:9,colour:14}}
+];
+let worksheets = JSON.parse(localStorage.getItem('ohhana_worksheets') || 'null') || defaultWorksheets;
+let selectedWorksheet=null, wsType='digital', wsQty=1, printMode='bw', wsSize='A4';
+
+let selectedProduct=null, material='matte', counts={10:0,50:0,100:0}, cart=[];
+let detailShipping=6;
+let customer={}, shipping=6, orderId='';
+
+const $=id=>document.getElementById(id);
+function money(n){return 'RM '+Number(n).toFixed(2)}
+function show(id){
+ document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+ $(id).classList.add('active'); window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function saveProducts(){localStorage.setItem('ohhana_products',JSON.stringify(products));}
+function renderAdmin(){
+ $('adminProducts').innerHTML = products.map((p,i)=>`
+ <div class="adminitem">
+   <img src="${p.img}" alt="">
+   <div class="grow"><b>${p.code}</b><div>${p.title}</div><div class="muted">Matte: RM${p.p.matte[10]}/RM${p.p.matte[50]}/RM${p.p.matte[100]} • Glossy: RM${p.p.glossy[10]}/RM${p.p.glossy[50]}/RM${p.p.glossy[100]}</div></div>
+   <button class="danger" data-admin-remove="${i}">Buang</button>
+ </div>`).join('');
+}
+function nextCode(){
+ let n=1;
+ while(products.some(p=>p.code===('WT'+String(n).padStart(3,'0')))) n++;
+ return 'WT'+String(n).padStart(3,'0');
+}
+function addAdminProduct(){
+ const title=$('adminTitle').value.trim();
+ const file=$('adminImage').files[0];
+ let code=$('adminCode').value.trim().toUpperCase() || nextCode();
+ if(!/^WT\d{3,}$/.test(code)){alert('Kod mesti seperti WT004.');return;}
+ if(!title){alert('Masukkan nama design.');return;}
+ if(!file){alert('Pilih gambar product dahulu.');return;}
+ if(products.some(x=>x.code===code)){alert('Kod ini sudah digunakan.');return;}
+ const reader=new FileReader();
+ reader.onload=()=>{
+   products.push({
+     code,title,img:reader.result,
+     p:{matte:{10:Number($('m10').value)||0,50:Number($('m50').value)||0,100:Number($('m100').value)||0},
+        glossy:{10:Number($('g10').value)||0,50:Number($('g50').value)||0,100:Number($('g100').value)||0}}
+   });
+   saveProducts(); renderAdmin(); renderCatalog();
+   $('adminCode').value=''; $('adminTitle').value=''; $('adminImage').value='';
+   alert('Product berjaya ditambah.');
+ };
+ reader.readAsDataURL(file);
+}
+
+function renderWorksheets(){
+ $('worksheetGrid').innerHTML=worksheets.map(w=>`
+ <article class="card">
+   <img src="${w.img}" alt="${w.title}">
+   <h3>${w.title}</h3>
+   <div class="meta">${w.code} • ${w.age}</div>
+   <div class="muted" style="margin:0 3px 9px">Digital ${money(w.digital)} • Print dari ${money(w.print.bw)}</div>
+   <button class="primary" data-wspick="${w.code}">Pilih Worksheet</button>
+ </article>`).join('');
+}
+function renderWorksheetDetail(){
+ $('wsImg').src=selectedWorksheet.img;
+ $('wsTitle').textContent=selectedWorksheet.title;
+ $('wsCode').textContent=selectedWorksheet.code+' • '+selectedWorksheet.age;
+ $('wsQty').textContent=wsQty;
+ const unit=wsType==='digital'?selectedWorksheet.digital:(printMode==='bw'?selectedWorksheet.print.bw:selectedWorksheet.print.colour);
+ $('wsPrice').textContent=money(unit)+' / set';
+ const total=unit*wsQty;
+ $('printOptions').style.display=wsType==='print'?'block':'none';
+ $('wsTotal').innerHTML='<div class="line"><span>Quantity</span><b>'+wsQty+' set</b></div><div class="line"><span>Harga</span><b>'+money(total)+'</b></div><div class="line"><span>Postage</span><b>'+(wsType==='print'?money(6):'Digital')+'</b></div><div class="line grand"><span>Total</span><b>'+money(total+(wsType==='print'?6:0))+'</b></div>';
+ document.querySelectorAll('[data-ws-type]').forEach(b=>b.classList.toggle('selected',b.dataset.wsType===wsType));
+ document.querySelectorAll('[data-print]').forEach(b=>b.classList.toggle('selected',b.dataset.print===printMode));
+ document.querySelectorAll('[data-size]').forEach(b=>b.classList.toggle('selected',b.dataset.size===wsSize));
+}
+function addWorksheetToCart(){
+ const unit=wsType==='digital'?selectedWorksheet.digital:(printMode==='bw'?selectedWorksheet.print.bw:selectedWorksheet.print.colour);
+ cart.push({code:selectedWorksheet.code,title:selectedWorksheet.title,img:selectedWorksheet.img,material:wsType,qty:wsQty,total:unit*wsQty,worksheet:true,printMode,wsSize});
+ renderCart(); show('cart');
+}
+function renderCatalog(filter=''){
+ const f=filter.trim().toLowerCase();
+ $('catalogGrid').innerHTML=products.filter(p=>(p.code+' '+p.title).toLowerCase().includes(f)).map(p=>`
+ <article class="card">
+   <img src="${p.img}" alt="${p.title}">
+   <h3>${p.title}</h3>
+   <div class="meta">${p.code} • Matte ivory / Glossy</div>
+   <button class="primary" data-pick="${p.code}">Pilih Design</button>
+ </article>`).join('');
+}
+function priceFor(step){return selectedProduct.p[material][step]}
+function totalDetail(){
+ return [10,50,100].reduce((sum,s)=>sum+(counts[s]/s)*priceFor(s),0);
+}
+function renderDetail(){
+ $('detailImg').src=selectedProduct.img;
+ $('detailTitle').textContent=selectedProduct.title;
+ $('detailCode').textContent=selectedProduct.code;
+ [10,50,100].forEach(s=>{
+   $('q'+s).textContent=counts[s]+' pcs';
+   $('p'+s).textContent=money(priceFor(s))+' / set';
+ });
+ const pcs=[10,50,100].reduce((a,s)=>a+counts[s],0);
+ const sub=totalDetail();
+ const free=pcs>=1000;
+ const post=free?0:detailShipping;
+ $('detailShippingNote').innerHTML=free
+   ? '🎉 Jumlah <b>1000 pcs atau lebih</b> — <b>FREE POSTAGE</b>.'
+   : 'Postage akan dikira terus: <b>'+money(detailShipping)+'</b>.';
+ $('detailTotal').innerHTML='<div class="line"><span>Jumlah tag</span><b>'+pcs+' pcs</b></div><div class="line"><span>Subtotal</span><b>'+money(sub)+'</b></div><div class="line"><span>Postage</span><b>'+(post?money(post):'FREE')+'</b></div><div class="line grand"><span>Total</span><b>'+money(sub+post)+'</b></div>';
+ document.querySelectorAll('[data-material]').forEach(b=>b.classList.toggle('selected',b.dataset.material===material));
+ document.querySelectorAll('[data-detail-shipping]').forEach(b=>b.classList.toggle('selected',Number(b.dataset.detailShipping)===detailShipping));
+}
+function renderCart(){
+ $('cartCount').textContent=cart.reduce((a,x)=>a+x.qty,0);
+ if(!cart.length){$('cartList').innerHTML='<div class="empty">Cart masih kosong.<br>Tambah design dahulu 😊</div>'; $('cartSummary').innerHTML=''; $('checkoutBtn').disabled=true; return;}
+ $('checkoutBtn').disabled=false;
+ $('cartList').innerHTML=cart.map((x,i)=>`
+ <div class="cartitem"><div class="carttop">
+ <img class="thumb" src="${x.img}">
+ <div class="grow"><b>${x.title}</b><div class="muted">${x.code} • ${x.material==='matte'?'Matte Ivory':'Glossy'}</div>
+ <div style="margin-top:6px">${x.worksheet ? x.qty+' set • '+money(x.total) : x.qty+' pcs • '+money(x.total)}</div><div class="muted">${x.worksheet ? (x.material==='digital'?'Digital PDF':'Print • '+(x.printMode==='bw'?'B&W':'Colour')+' • '+x.wsSize) : ''}</div></div>
+ <button class="remove" data-remove="${i}">Buang</button></div></div>`).join('');
+ const sub=cart.reduce((a,x)=>a+x.total,0);
+ const pcs=cart.reduce((a,x)=>a+x.qty,0);
+ const ship=pcs>=1000?0:shipping;
+ $('cartSummary').innerHTML=`<div class="totalbox"><div class="line"><span>Subtotal</span><b>${money(sub)}</b></div><div class="line"><span>Postage</span><b>${ship?money(ship):'FREE'}</b></div><div class="line grand"><span>Total</span><b>${money(sub+ship)}</b></div></div>`;
+}
+function addCart(){
+ const lines=[];
+ [10,50,100].forEach(s=>{if(counts[s]>0) lines.push({code:selectedProduct.code,title:selectedProduct.title,img:selectedProduct.img,material,qty:counts[s],total:(counts[s]/s)*priceFor(s),step:s});});
+ if(!lines.length){alert('Sila pilih quantity dahulu.');return;}
+ cart.push(...lines);
+ shipping=detailShipping;
+ counts={10:0,50:0,100:0};
+ renderCart(); show('cart');
+}
+function getPcs(){return cart.reduce((a,x)=>a+x.qty,0)}
+function getSubtotal(){return cart.reduce((a,x)=>a+x.total,0)}
+function updateShipping(){
+ const pcs=getPcs();
+ shipping=pcs>=1000?0:($('state').value==='Sabah / Sarawak'?13:6);
+ $('shippingInfo').innerHTML=pcs>=1000?'🎉 Jumlah 1000 pcs atau lebih — <b>FREE POSTAGE</b>.':`Postage: <b>${money(shipping)}</b><br><span class="muted">Semenanjung RM6 • Sabah/Sarawak RM13</span>`;
+}
+function summary(){
+ const pcs=getPcs(); const ship=pcs>=1000?0:shipping; const total=getSubtotal()+ship;
+ orderId='OH-'+new Date().toISOString().slice(0,10).replaceAll('-','')+'-'+String(Math.floor(Math.random()*900)+100);
+ $('summaryBox').innerHTML=`<div><b>${orderId}</b></div><div class="line"><span>Customer</span><span>${customer.name}</span></div><div class="line"><span>Jumlah tag</span><span>${pcs} pcs</span></div><div class="line"><span>Subtotal</span><span>${money(getSubtotal())}</span></div><div class="line"><span>Postage</span><span>${ship?money(ship):'FREE'}</span></div><div class="line grand"><span>Total</span><span>${money(total)}</span></div>`;
+ $('orderIdBox').innerHTML=`Order ID: <b>${orderId}</b><br>Total: <b>${money(total)}</b>`;
+ $('payTotal').innerHTML=`<div class="line"><span>Jumlah perlu dibayar</span><b>${money(total)}</b></div>`;
+}
+function wa(){
+ const items=cart.map(x=>`• ${x.code} ${x.title} — ${x.qty} pcs — ${x.material==='matte'?'Matte Ivory':'Glossy'} — ${money(x.total)}`).join('%0A');
+ const total=getSubtotal()+(getPcs()>=1000?0:shipping);
+ const text=`Assalamualaikum OH! HANA,%0A%0ASaya telah membuat pembayaran.%0AOrder ID: ${orderId}%0ANama: ${customer.name}%0ANo WhatsApp: ${customer.phone}%0AAlamat: ${customer.address}%0A%0AOrder:%0A${items}%0A%0ATotal: ${money(total)}%0A%0ASaya sertakan screenshot pembayaran. Terima kasih.`;
+ window.location.href='https://wa.me/60123456789?text='+text;
+}
+
+document.addEventListener('click',function(e){
+ const col=e.target.closest('[data-collection]');
+ if(col){
+   if(col.dataset.collection==='wedding'){renderCatalog();show('catalog');}
+   else {renderWorksheets();show('worksheet');}
+   return;
+ }
+ const wsp=e.target.closest('[data-wspick]');
+ if(wsp){selectedWorksheet=worksheets.find(w=>w.code===wsp.dataset.wspick);wsType='digital';wsQty=1;printMode='bw';wsSize='A4';renderWorksheetDetail();show('worksheetDetail');return;}
+ const wst=e.target.closest('[data-ws-type]');
+ if(wst){wsType=wst.dataset.wsType;renderWorksheetDetail();return;}
+ const pm=e.target.closest('[data-print]');
+ if(pm){printMode=pm.dataset.print;renderWorksheetDetail();return;}
+ const sz=e.target.closest('[data-size]');
+ if(sz){wsSize=sz.dataset.size;renderWorksheetDetail();return;}
+ const wq=e.target.closest('[data-wsqty]');
+ if(wq){wsQty=Math.max(1,wsQty+Number(wq.dataset.wsqty));renderWorksheetDetail();return;}
+ const pick=e.target.closest('[data-pick]');
+ if(pick){selectedProduct=products.find(p=>p.code===pick.dataset.pick);material='matte';detailShipping=6;shipping=6;counts={10:0,50:0,100:0};renderDetail();show('detail');return;}
+ const action=e.target.closest('[data-action]');
+ if(action){show(action.dataset.action); if(action.dataset.action==='cart')renderCart(); if(action.dataset.action==='admin')renderAdmin(); if(action.dataset.action==='home'){} if(action.dataset.action==='worksheet')renderWorksheets(); return;}
+ const ar=e.target.closest('[data-admin-remove]');
+ if(ar){
+   if(confirm('Buang product ini?')){
+     products.splice(Number(ar.dataset.adminRemove),1);
+     saveProducts(); renderAdmin(); renderCatalog();
+   }
+   return;
+ }
+ const mat=e.target.closest('[data-material]');
+ if(mat){material=mat.dataset.material;renderDetail();return;}
+ const ds=e.target.closest('[data-detail-shipping]');
+ if(ds){detailShipping=Number(ds.dataset.detailShipping);shipping=detailShipping;renderDetail();return;}
+ const q=e.target.closest('[data-qty]');
+ if(q){const s=Number(q.dataset.qty);counts[s]=Math.max(0,counts[s]+Number(q.dataset.dir)*s);renderDetail();return;}
+ const rem=e.target.closest('[data-remove]');
+ if(rem){cart.splice(Number(rem.dataset.remove),1);renderCart();return;}
+});
+$('search').addEventListener('input',e=>renderCatalog(e.target.value));
+$('saveProduct').addEventListener('click',addAdminProduct);
+$('addWorksheet').addEventListener('click',addWorksheetToCart);
+$('addCart').addEventListener('click',addCart);
+$('cartNav').addEventListener('click',()=>{renderCart();show('cart')});
+$('checkoutBtn').addEventListener('click',()=>{if(cart.length)show('customer')});
+$('shippingBtn').addEventListener('click',()=>{
+ if(!$('name').value.trim()||!$('phone').value.trim()||!$('address').value.trim()||!$('state').value){alert('Sila lengkapkan semua maklumat.');return;}
+ customer={name:$('name').value.trim(),phone:$('phone').value.trim(),address:$('address').value.trim(),state:$('state').value};
+ updateShipping();show('shipping');
+});
+$('summaryBtn').addEventListener('click',()=>{updateShipping();summary();show('summary')});
+$('paymentBtn').addEventListener('click',()=>{summary();show('payment')});
+$('waBtn').addEventListener('click',wa);
+
+renderCatalog(); renderWorksheets(); show('home');
+})();
+</script>
+</body>
+</html>
