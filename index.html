@@ -31,6 +31,12 @@ input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:
 @media(max-width:390px){.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}.card{padding:6px;border-radius:14px}.card h3{font-size:12px;margin:6px 2px 3px}.meta{font-size:9px;margin:0 2px 6px}.primary{padding:8px 4px;font-size:11px;border-radius:10px}}
 
 .collection-card{width:100%;display:flex;align-items:center;gap:13px;text-align:left;border:1px solid var(--line);background:#fff;border-radius:22px;padding:18px;box-shadow:0 7px 22px #6c42500d}.collection-card .collection-icon{width:54px;height:54px;border-radius:16px;background:#f5e8eb;display:grid;place-items:center;font-size:26px}.collection-card div:nth-child(2){flex:1}.collection-card strong{display:block;font-size:18px;letter-spacing:.4px}.collection-card small{display:block;color:var(--muted);margin-top:4px}.collection-card span{font-size:24px;color:var(--rose)}
+
+.brand-logo{width:min(230px,62vw);height:auto;display:block;margin:0 auto 10px;object-fit:contain}
+.thankyou-card{text-align:center;background:#fff;border:1px solid var(--line);border-radius:24px;padding:30px 20px;box-shadow:0 8px 28px #6c425012;margin-top:20px}
+.thankyou-logo{width:min(290px,78vw);height:auto;display:block;margin:0 auto 10px;object-fit:contain}
+.thankyou-card h2{font-size:28px;margin:8px 0}.thankyou-card p{margin:7px 0}.order-id{margin:20px 0;padding:14px;border-radius:14px;background:#f7edef;font-weight:700;color:var(--rose)}
+
 </style>
 </head>
 <body>
@@ -43,7 +49,7 @@ input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:
 <main>
 
 <section id="home" class="screen active">
-  <div style="text-align:center;padding:28px 8px 18px">
+  <div style="text-align:center;padding:22px 8px 18px"><img class="brand-logo" src="logo-home.png" alt="OH! HANA logo">
     <div style="font-size:13px;letter-spacing:2px;color:var(--muted)">OH! HANA</div>
     <h1 style="font-size:30px;margin:8px 0">Choose Your Collection</h1>
     <div class="muted">Simple • Elegant • Made with Love</div>
@@ -54,6 +60,11 @@ input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:
       <div><strong>WEDDING TAG</strong><small>Custom wedding tags & designs</small></div>
       <span>→</span>
     </button>
+    <button class="collection-card" data-collection="flower">
+      <div class="collection-icon">🌸</div>
+      <div><strong>TAG BUNGA TELUR</strong><small>Simple & elegant tag collection</small></div>
+      <span>→</span>
+    </button>
     <button class="collection-card" data-collection="worksheet">
       <div class="collection-icon">📚</div>
       <div><strong>KIDS WORKSHEET</strong><small>Digital & printed preschool activities</small></div>
@@ -62,10 +73,16 @@ input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:
   </div>
 </section>
 
+
+<section id="flower" class="screen">
+  <button class="back" data-action="home">← Kembali ke Laman Utama</button>
+  <h2>Tag Bunga Telur</h2>
+  <div class="muted" style="margin-bottom:14px">Simple • Elegant • Custom</div>
+  <div id="flowerGrid" class="grid"></div>
+</section>
 <section id="worksheet" class="screen">
-  <button class="back" data-action="home">← Kembali ke Home</button>
+  <button class="back" data-action="home">← Kembali ke Laman Utama</button>
   <h2>Kids Worksheet</h2>
-  <div class="muted" style="margin-bottom:14px">Digital • Print • Preschool Activities</div>
   <div id="worksheetGrid" class="grid"></div>
 </section>
 
@@ -144,6 +161,9 @@ input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:
 </section>
 
 <section id="catalog" class="screen">
+  <button class="back" data-action="home">← Kembali ke Laman Utama</button>
+  <h2>Wedding Tag</h2>
+  <div class="muted" style="margin:-4px 0 14px;font-weight:600">Preorder</div>
   <input id="search" class="search" placeholder="🔎 Cari kod / design..." autocomplete="off">
   <div id="catalogGrid" class="grid"></div>
 </section>
@@ -179,6 +199,17 @@ input,select{width:100%;padding:13px;border:1px solid var(--line);border-radius:
   <button class="primary" id="addCart">Tambah ke Cart</button>
 </section>
 
+
+<section id="thankyou" class="screen">
+  <div class="thankyou-card">
+    <img src="logo-thankyou.png" class="thankyou-logo" alt="Thank you">
+    <h2>Thank You ♡</h2>
+    <p class="muted">Thank you for your support.</p>
+    <p>Your order has been received.</p>
+    <div class="order-id" id="thankOrderId">Order ID: —</div>
+    <button class="primary" data-action="home">← Kembali ke Laman Utama</button>
+  </div>
+</section>
 <section id="cart" class="screen">
   <button class="back" data-action="catalog">← Teruskan shopping</button>
   <h2>Cart</h2>
@@ -241,6 +272,12 @@ const defaultWorksheets = [
  {code:'DW003',title:'Cutting Activity',age:'Age 3–5',img:'wt003.png',digital:6,print:{bw:9,colour:14}}
 ];
 let worksheets = JSON.parse(localStorage.getItem('ohhana_worksheets') || 'null') || defaultWorksheets;
+const defaultFlowers = [
+ {code:'BT001',title:'Tag Bunga Telur 01',img:'wt001.png'},
+ {code:'BT002',title:'Tag Bunga Telur 02',img:'wt002.png'},
+ {code:'BT003',title:'Tag Bunga Telur 03',img:'wt003.png'}
+];
+let flowers = JSON.parse(localStorage.getItem('ohhana_flowers') || 'null') || defaultFlowers;
 let selectedWorksheet=null, wsType='digital', wsQty=1, printMode='bw', wsSize='A4';
 
 let selectedProduct=null, material='matte', counts={10:0,50:0,100:0}, cart=[];
@@ -290,6 +327,16 @@ function addAdminProduct(){
  reader.readAsDataURL(file);
 }
 
+
+function renderFlowers(){
+  $('flowerGrid').innerHTML=flowers.map(f=>`
+  <article class="card">
+    <img src="${f.img}" alt="${f.title}">
+    <h3>${f.title}</h3>
+    <div class="meta">${f.code}</div>
+    <button class="primary" data-flowerpick="${f.code}">Lihat Design</button>
+  </article>`).join('');
+}
 function renderWorksheets(){
  $('worksheetGrid').innerHTML=worksheets.map(w=>`
  <article class="card">
@@ -319,6 +366,12 @@ function addWorksheetToCart(){
  cart.push({code:selectedWorksheet.code,title:selectedWorksheet.title,img:selectedWorksheet.img,material:wsType,qty:wsQty,total:unit*wsQty,worksheet:true,printMode,wsSize});
  renderCart(); show('cart');
 }
+
+function showThankYou(orderId){
+  $('thankOrderId').textContent = 'Order ID: ' + (orderId || ('OH-'+new Date().toISOString().slice(0,10).replaceAll('-','')+'-001'));
+  show('thankyou');
+}
+
 function renderCatalog(filter=''){
  const f=filter.trim().toLowerCase();
  $('catalogGrid').innerHTML=products.filter(p=>(p.code+' '+p.title).toLowerCase().includes(f)).map(p=>`
@@ -401,6 +454,7 @@ document.addEventListener('click',function(e){
  const col=e.target.closest('[data-collection]');
  if(col){
    if(col.dataset.collection==='wedding'){renderCatalog();show('catalog');}
+   else if(col.dataset.collection==='flower'){renderFlowers();show('flower');}
    else {renderWorksheets();show('worksheet');}
    return;
  }
@@ -417,7 +471,7 @@ document.addEventListener('click',function(e){
  const pick=e.target.closest('[data-pick]');
  if(pick){selectedProduct=products.find(p=>p.code===pick.dataset.pick);material='matte';detailShipping=6;shipping=6;counts={10:0,50:0,100:0};renderDetail();show('detail');return;}
  const action=e.target.closest('[data-action]');
- if(action){show(action.dataset.action); if(action.dataset.action==='cart')renderCart(); if(action.dataset.action==='admin')renderAdmin(); if(action.dataset.action==='home'){} if(action.dataset.action==='worksheet')renderWorksheets(); return;}
+ if(action){show(action.dataset.action); if(action.dataset.action==='cart')renderCart(); if(action.dataset.action==='admin')renderAdmin(); if(action.dataset.action==='worksheet')renderWorksheets(); return;}
  const ar=e.target.closest('[data-admin-remove]');
  if(ar){
    if(confirm('Buang product ini?')){
@@ -450,7 +504,7 @@ $('summaryBtn').addEventListener('click',()=>{updateShipping();summary();show('s
 $('paymentBtn').addEventListener('click',()=>{summary();show('payment')});
 $('waBtn').addEventListener('click',wa);
 
-renderCatalog(); renderWorksheets(); show('home');
+renderCatalog(); renderWorksheets(); renderFlowers(); show('home');
 })();
 </script>
 </body>
